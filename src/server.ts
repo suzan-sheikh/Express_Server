@@ -6,7 +6,9 @@ import express, {
 const app: Application = express();
 const port = 5000;
 
-app.use(express.json())
+app.use(express.json());
+app.use(express.text());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
@@ -16,10 +18,14 @@ app.get("/", (req: Request, res: Response) => {
   //res.send("Hello World!");
 });
 
-app.post('/', async(req: Request, res: Response)=> {
-    console.log(req.body);
-})
+app.post("/", async (req: Request, res: Response) => {
+  const body = req.body;
 
+  res.status(201).json({
+    message: "Created",
+    body: body,
+  });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
